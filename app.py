@@ -1246,7 +1246,9 @@ def render_history_tab():
         return colors.get(val, "")
 
     if "Final Decision" in df.columns:
-        styled = df.style.applymap(color_decision, subset=["Final Decision"])
+        styler = df.style
+        apply = styler.map if hasattr(styler, "map") else styler.applymap
+        styled = apply(color_decision, subset=["Final Decision"])
         st.dataframe(styled, use_container_width=True, hide_index=True)
     else:
         st.dataframe(df, use_container_width=True, hide_index=True)
